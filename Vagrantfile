@@ -4,7 +4,7 @@ Vagrant.configure("2") do |config|
 
   # installs everything needed on the system
   config.vm.provision :shell, path: "vagrant/bootstrap.sh"
-
+  #config.vm.synced_folder ".", "/home/vagrant"
   # enable below to debug launch problems.
   #config.vm.provider "virtualbox" do |v|
   #  v.gui = true
