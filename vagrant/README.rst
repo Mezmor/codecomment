@@ -31,7 +31,6 @@ You can then see the server on your local computer by navigating to
 
 Essential Commands
 --------
-
 ::
 	vagrant up
 This configures and launches the server.  If the Vagrantfile has been modified, it will make any changes necessary.
@@ -41,7 +40,6 @@ Restarts the vm.  Most of the time this will be all you need to run for any chan
 ::
 	vagrant halt
 Shuts down the vm.
-
 ::
 	vagrant ssh
 This gives you shell access to the server.  Use this to test code or for deployment testing or whatever.
