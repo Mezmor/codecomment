@@ -34,18 +34,23 @@ Essential Commands
 This configures and launches the server.  If the Vagrantfile has been modified, it will make any changes necessary.
 ::
 	vagrant up
+
 Restarts the vm.  Most of the time this will be all you need to run for any changes you made to the Vagrantfile while it was running.
 ::
 	vagrant reload
+
 Shuts down the vm.
 ::
 	vagrant halt
+
 This gives you shell access to the server.  Use this to test code or for deployment testing or whatever.
 ::
 	vagrant ssh
+
 This is the command you run if the vm has gone wrong.  It will wipe the vm completely allowing you to install a fresh one.
 ::
 	vagrant destroy
+
 This will update packages/settings on the server based on vagrant/bootstrap.sh .  Run this after making/adding anything to the bootstrap file.
 ::
 	vagrant provision
