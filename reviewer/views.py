@@ -11,25 +11,22 @@ from django.contrib.auth.models import User
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
-        'users': reverse('user-list', request=request, format=format),
-        'snippets': reverse('snippet-list', request=request, format=format)
+        'users': reverse('user-list-create', request=request, format=format),
+        'snippets': reverse('snippet-list-create', request=request, format=format)
     })
 
 """
 Snippet views
 """
 
-class SnippetCreate(generics.CreateAPIView):
+class SnippetListCreate(generics.ListCreateAPIView):
     """
-    Create a snippet
-    """
-    queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
-
-
-class SnippetList(generics.ListAPIView):
-    """
-    List all snippets
+    GET:
+        - All snippets
+    POST:
+        - Create a snippet
+    Permissions:
+        - User must be authenticated to POST
     """
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
@@ -41,7 +38,16 @@ class SnippetList(generics.ListAPIView):
 
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Retrieve, update, or delete a given snippet
+    GET:
+        - A snippet
+    PUT:
+        - Update a snippet
+    PATCH:
+        - Update a snippet
+    DELETE:
+        - Delete a snippet
+    Permissions:
+        - User must be authenticated and the snippet owner to edit
     """
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
@@ -50,7 +56,12 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     def pre_save(self, obj):
         obj.owner = self.request.user
 
+
 class SnippetHighlight(generics.GenericAPIView):
+    """
+    GET:
+        - Highlighted code snippet
+    """
     queryset = Snippet.objects.all()
     renderer_classes = (renderers.StaticHTMLRenderer, )
 
@@ -58,23 +69,34 @@ class SnippetHighlight(generics.GenericAPIView):
         snippet = self.get_object()
         return Response(snippet.highlighted)
 
-
-
 """
 User views
 """
 
-class UserList(generics.ListAPIView):
+class UserListCreate(generics.ListCreateAPIView):
     """
-    List all users
+    GET:
+        - All users
+    POST:
+        - Create a user
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    def post_save(self, obj, created=False):
+        """
+        On creation, replace the raw password with a hashed version
+        """
+        if created:
+            obj.set_password(obj.password)
+            obj.save()
+
+
 
 class UserDetail(generics.RetrieveAPIView):
     """
-    Retrieve a user
+    Get:
+        - A user
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
