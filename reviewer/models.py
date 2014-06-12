@@ -40,6 +40,7 @@ class Comment(models.Model):
     #lines
     edited = models.BooleanField(default=False)
 
+
 class Vote(models.Model):
     comment = models.ForeignKey(Comment, related_name='votes')
     voter = models.ForeignKey('auth.User', related_name='votes')
