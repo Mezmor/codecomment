@@ -29,3 +29,18 @@ class Snippet(models.Model):
         formatter = HtmlFormatter(style=self.style, linenos=linenos, full=True, **options)
         self.highlighted = highlight(self.code, lexer, formatter)
         super(Snippet, self).save(*args, **kwargs)
+
+
+class Comment(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey('auth.User', related_name='comments')
+    snippet = models.ForeignKey(Snippet, related_name='comments')
+    body = models.CharField(max_length=2000)
+    parent = models.ForeignKey('self', blank=True, null=True)
+    #lines
+    edited = models.BooleanField(default=False)
+
+class Vote(models.Model):
+    comment = models.ForeignKey(Comment, related_name='votes')
+    voter = models.ForeignKey('auth.User', related_name='votes')
+    type = models.BooleanField(default=False) # 1 = upvote, 0 = downvote
