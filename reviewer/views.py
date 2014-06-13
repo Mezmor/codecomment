@@ -3,9 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from reviewer.permissions import IsOwnerOrReadOnly
-from reviewer.models import Snippet
-from reviewer.serializers import SnippetSerializer, UserSerializer
-from django.contrib.auth.models import User
+from reviewer.models import Snippet, User, Comment
+from reviewer.serializers import SnippetSerializer, UserSerializer, CommentSerializer
 
 
 @api_view(('GET',))
@@ -18,6 +17,7 @@ def api_root(request, format=None):
 """
 Snippet views
 """
+
 
 class SnippetListCreate(generics.ListCreateAPIView):
     """
@@ -69,9 +69,23 @@ class SnippetHighlight(generics.GenericAPIView):
         snippet = self.get_object()
         return Response(snippet.highlighted)
 
+
+class CommentCreation(generics.CreateAPIView):
+    """
+    POST to create a comment
+    """
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def pre_save(self, obj):
+        obj.author = self.request.user
+        obj.snippet = Snippet.objects.get(id=int(self.kwargs['pk']))
+
+
 """
 User views
 """
+
 
 class UserListCreate(generics.ListCreateAPIView):
     """
@@ -90,7 +104,6 @@ class UserListCreate(generics.ListCreateAPIView):
         if created:
             obj.set_password(obj.password)
             obj.save()
-
 
 
 class UserDetail(generics.RetrieveAPIView):
