@@ -3,7 +3,7 @@ from reviewer.models import Snippet, Comment, User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    snippets = serializers.PrimaryKeyRelatedField(many=True)
+    snippets = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = User
@@ -18,7 +18,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('id', 'author', 'body', 'created', 'parent', 'score')
+        fields = ('id', 'author', 'body', 'created', 'parent', 'score', 'line_references')
         write_only_fields = ('snippet', 'edited', )
 
 
