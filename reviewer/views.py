@@ -76,11 +76,21 @@ class CommentCreation(generics.CreateAPIView):
     """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
 
     def pre_save(self, obj):
-        obj.author = self.request.user
+        obj.owner = self.request.user
         obj.snippet = Snippet.objects.get(id=int(self.kwargs['pk']))
 
+
+class CommentUpdate(generics.RetrieveUpdateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    lookup_url_kwarg = 'comment_pk'
+
+    def pre_save(self, obj):
+        obj.edited = True
 
 """
 User views

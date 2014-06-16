@@ -67,12 +67,12 @@ class Snippet(models.Model):
 
 class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, related_name='comments')
+    owner = models.ForeignKey(User, related_name='comments')
     snippet = models.ForeignKey(Snippet, related_name='comments')
     body = models.CharField(max_length=2000)
     parent = models.ForeignKey('self', blank=True, null=True)
     edited = models.BooleanField(default=False)
-    line_references = ListField()
+    line_references = ListField(blank=True)
 
     def score(self):
         score = 0

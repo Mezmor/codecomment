@@ -12,14 +12,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = serializers.RelatedField()
-    parent = serializers.RelatedField()
+    owner = serializers.Field(source='owner.username')
     score = serializers.Field(source='score')
 
     class Meta:
         model = Comment
-        fields = ('id', 'author', 'body', 'created', 'parent', 'score', 'line_references')
-        write_only_fields = ('snippet', 'edited', )
+        exclude = ('parent', 'snippet')
+        read_only_fields = ('edited', )
 
 
 class SnippetSerializer(serializers.ModelSerializer):
@@ -28,4 +27,4 @@ class SnippetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Snippet
-        fields = ('id', 'title', 'code', 'display_linenos', 'language', 'style', 'owner', 'comments')
+        read_only_fields = ('highlighted', )
