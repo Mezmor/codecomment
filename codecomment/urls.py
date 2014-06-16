@@ -7,7 +7,8 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'codecomment.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^', include('api.urls')),
+    url(r'^', include('frontend.urls')),
+    url(r'^api/', include('api.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )

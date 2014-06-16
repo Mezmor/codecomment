@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Code Comments...</title>   
+    </head>
+
+    <title> Code Comment..</title>
+    <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            Title:{{ form.title }} Language: {{form.language}}<br>
+            {{ form.snippet}}<br>
+        </p>
+        <p><input type="submit" value="Paste" /></p>
+    </form>
+
+</html>
