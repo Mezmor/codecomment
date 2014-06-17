@@ -84,6 +84,11 @@ class CommentCreation(generics.CreateAPIView):
 
 
 class CommentUpdate(generics.RetrieveUpdateAPIView):
+    """
+    Get to retrieve
+    Put/Patch to update
+        - Limited to comment owners
+    """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
