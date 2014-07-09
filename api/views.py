@@ -69,6 +69,9 @@ class SnippetHighlight(generics.GenericAPIView):
         snippet = self.get_object()
         return Response(snippet.highlighted)
 
+"""
+Comment views
+"""
 
 class CommentCreation(generics.CreateAPIView):
     """
@@ -76,7 +79,7 @@ class CommentCreation(generics.CreateAPIView):
     """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
     def pre_save(self, obj):
         obj.owner = self.request.user

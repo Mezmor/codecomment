@@ -87,4 +87,4 @@ class Comment(models.Model):
 class Vote(models.Model):
     comment = models.ForeignKey(Comment, related_name='votes')
     voter = models.ForeignKey(User, related_name='votes')
-    type = models.BooleanField(default=False) # 1 = upvote, 0 = downvote
+    upvote = models.BooleanField(default=False) # 1 = upvote, 0 = downvote
