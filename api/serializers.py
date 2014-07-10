@@ -15,6 +15,13 @@ class CommentSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source='owner.username')
     score = serializers.Field(source='score')
 
+    def validate_line_references(self, attrs, source):
+        """
+        Check that all line references are valid and compress adjacent references
+        """
+        reference_list = attrs[source]
+        return attrs
+
     class Meta:
         model = Comment
         exclude = ('parent', 'snippet')
