@@ -25,7 +25,14 @@ class ListField(models.TextField):
         if isinstance(value, list):
             return value
 
-        return ast.literal_eval(value)
+        # Handle malformed string input
+        try:
+            eval_value = ast.literal_eval(value)
+        except Exception as error:
+            from rest_framework import serializers
+            raise serializers.ValidationError("Malformed input.")
+
+        return eval_value
 
     def get_prep_value(self, value):
         if value is None:

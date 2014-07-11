@@ -20,6 +20,10 @@ class CommentSerializer(serializers.ModelSerializer):
         Check that all line references are valid and compress adjacent references
         """
         reference_list = attrs[source]
+
+        if not isinstance(reference_list, list):
+            raise serializers.ValidationError("Reference list should be a list.")
+
         return attrs
 
     class Meta:
