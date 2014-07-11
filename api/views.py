@@ -73,6 +73,7 @@ class SnippetHighlight(generics.GenericAPIView):
 Comment views
 """
 
+
 class CommentCreation(generics.CreateAPIView):
     """
     POST to create a comment

@@ -24,6 +24,9 @@ class CommentSerializer(serializers.ModelSerializer):
         if not isinstance(reference_list, list):
             raise serializers.ValidationError("Reference list should be a list.")
 
+        # So far this is the only way I can think of accessing the relevant snippet
+        print self.context['request'].parser_context['kwargs']['pk']
+
         return attrs
 
     class Meta:
