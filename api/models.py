@@ -55,6 +55,7 @@ class Snippet(models.Model):
     title = models.CharField(max_length=100, blank=True, default='')
     code = models.TextField()
     display_linenos = models.BooleanField(default=False)
+    linenos = models.PositiveIntegerField()
     language = models.CharField(choices=LANGUAGE_CHOICES, default='python', max_length=100)
     style = models.CharField(choices=STYLE_CHOICES, default='friendly', max_length=100)
     owner = models.ForeignKey(User, related_name='snippets')
@@ -69,6 +70,12 @@ class Snippet(models.Model):
         options = self.title and {'title': self.title} or {}
         formatter = HtmlFormatter(style=self.style, linenos=display_linenos, full=True, **options)
         self.highlighted = highlight(self.code, lexer, formatter)
+
+        if not self.code.endswith('\n'):
+            self.code += u'\n'
+
+        self.linenos = self.code.count('\n')
+
         super(Snippet, self).save(*args, **kwargs)
 
 

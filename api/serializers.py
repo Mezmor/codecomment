@@ -41,4 +41,4 @@ class SnippetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Snippet
-        read_only_fields = ('highlighted', )
+        read_only_fields = ('highlighted', 'linenos', )
