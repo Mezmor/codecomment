@@ -73,7 +73,9 @@ class Snippet(models.Model):
 
         if not self.code.endswith('\n'):
             self.code += u'\n'
-
+        else:
+            # We should trim all but one \n if necessary
+            pass
         self.linenos = self.code.count('\n')
 
         super(Snippet, self).save(*args, **kwargs)

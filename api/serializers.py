@@ -24,8 +24,35 @@ class CommentSerializer(serializers.ModelSerializer):
         if not isinstance(reference_list, list):
             raise serializers.ValidationError("Reference list should be a list.")
 
+        compressed_list = []
+        reference_list = sorted(list(set(reference_list)))
+
         # So far this is the only way I can think of accessing the relevant snippet
-        print self.context['request'].parser_context['kwargs']['pk']
+        snippet = Snippet.objects.get(id=self.context['request'].parser_context['kwargs']['pk'])
+
+        for line_ref in reference_list:
+            if line_ref > snippet.linenos:
+                raise serializers.ValidationError("Can't reference a non-existent line.")
+
+        for line in reference_list:
+            if not compressed_list:  # First line reference
+                compressed_list.append(line)
+            else:
+                if isinstance(compressed_list[-1], tuple):
+                    (under, prev_line) = compressed_list[-1]
+                    if line == (prev_line + 1):
+                        compressed_list[-1] = (under, line)
+                    else:
+                        compressed_list.append(line)
+                else:
+                    if line == (compressed_list[-1] + 1):
+                        compressed_list[-1] = (compressed_list[-1], line)
+                    else:
+                        compressed_list.append(line)
+
+        print compressed_list
+
+        attrs[source] = compressed_list
 
         return attrs
 
