@@ -31,7 +31,7 @@ class CommentSerializer(serializers.ModelSerializer):
         snippet = Snippet.objects.get(id=self.context['request'].parser_context['kwargs']['pk'])
 
         for line_ref in reference_list:
-            if line_ref > snippet.linenos:
+            if line_ref > snippet.linenos or line_ref <= 0:
                 raise serializers.ValidationError("Can't reference a non-existent line.")
 
         for line in reference_list:
