@@ -71,12 +71,10 @@ class Snippet(models.Model):
         formatter = HtmlFormatter(style=self.style, linenos=display_linenos, full=True, **options)
         self.highlighted = highlight(self.code, lexer, formatter)
 
-        if not self.code.endswith('\n'):
-            self.code += u'\n'
-        else:
-            # We should trim all but one \n if necessary
-            pass
-        self.linenos = self.code.count('\n')
+        if not self.code.endswith('\r\n'):
+            self.code += u'\r\n'
+
+        self.linenos = self.code.count('\r\n')
 
         super(Snippet, self).save(*args, **kwargs)
 
