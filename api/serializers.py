@@ -66,6 +66,15 @@ class SnippetSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source='owner.username')  # Field is readonly
     comments = CommentSerializer(many=True, read_only=True)
 
+
+    def validate_code(self, attrs, source):
+        code = attrs[source]
+
+        if code.isspace():
+            raise serializers.ValidationError("Can not be only whitespace.")
+
+        return attrs
+
     class Meta:
         model = Snippet
         read_only_fields = ('highlighted', 'linenos', )
