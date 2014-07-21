@@ -31,7 +31,7 @@ class CommentSerializer(serializers.ModelSerializer):
         snippet = Snippet.objects.get(id=self.context['request'].parser_context['kwargs']['pk'])
 
         for line_ref in reference_list:
-            if line_ref > snippet.linenos:
+            if line_ref > snippet.linenos or line_ref <= 0:
                 raise serializers.ValidationError("Can't reference a non-existent line.")
 
         for line in reference_list:
@@ -65,6 +65,15 @@ class CommentSerializer(serializers.ModelSerializer):
 class SnippetSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source='owner.username')  # Field is readonly
     comments = CommentSerializer(many=True, read_only=True)
+
+
+    def validate_code(self, attrs, source):
+        code = attrs[source]
+
+        if code.isspace():
+            raise serializers.ValidationError("Can not be only whitespace.")
+
+        return attrs
 
     class Meta:
         model = Snippet
