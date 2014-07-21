@@ -21,6 +21,6 @@ def home(request):
             return HttpResponseRedirect(reverse('home'))
     else:
         form = PasteForm()
-    template = "home.html"
+    template = "paste.html"
     return render_to_response(template,{'form': form},
         context_instance=RequestContext(request))
