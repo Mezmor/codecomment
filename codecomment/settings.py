@@ -49,6 +49,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    )
+
 ROOT_URLCONF = 'codecomment.urls'
 
 WSGI_APPLICATION = 'codecomment.wsgi.application'
@@ -84,7 +89,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+print STATICFILES_DIRS
 AUTH_USER_MODEL = 'api.User'
