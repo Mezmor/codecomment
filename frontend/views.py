@@ -7,7 +7,6 @@ from forms import PasteForm
 from django.template.context import RequestContext
 
 from api.models import Snippet, User
-# I have no idea what I'm doingggg.
 def home(request):
     if request.method == 'POST':
         logging.info(request.POST)
