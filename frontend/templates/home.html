@@ -6,7 +6,7 @@
     </head>
 
     <title> Code Comment..</title>
-    <form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'snippet-list-create' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <p>
             Title:{{ form.title }} Language: {{form.language}}<br>

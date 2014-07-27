@@ -1,0 +1,7 @@
+.prettyprint ol.linenums > li {
+    list-style-type: decimal;
+}
+
+.comment-list > ul {
+    display: inline;
+}
