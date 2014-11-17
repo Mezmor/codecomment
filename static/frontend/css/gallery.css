@@ -23,3 +23,26 @@ h1,h2,h3,h4,h5,h6 {
     padding: 1em;
     font-size: 80%;
 }
+
+.code-content-header {
+    height: 75px;
+}
+
+.code-sub-container {
+    position: relative;
+}
+
+.code-content-title {
+    position: absolute;
+    bottom: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.code-content-subtitle {
+    font-size: 12px;
+    margin: 0px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
